@@ -30,6 +30,9 @@ public class SwaggerBundleConfiguration {
     @JsonProperty
     private Integer port = null;
 
+    @JsonProperty
+    private String staticAssetPrefix = "/";
+
     public SwaggerBundleConfiguration(String host, Integer port) {
         this.host = host;
         this.port = port;
@@ -62,6 +65,13 @@ public class SwaggerBundleConfiguration {
         this.port = port;
     }
 
+    public String getStaticAssetPrefix() {
+        return staticAssetPrefix;
+    }
+
+    public void setStaticAssetPrefix(String staticAssetPrefix) {
+        this.staticAssetPrefix = staticAssetPrefix;
+    }
 
     @Override
     public String toString() {

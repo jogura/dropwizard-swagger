@@ -24,6 +24,7 @@ import io.dropwizard.jetty.HttpsConnectorFactory;
 import io.dropwizard.server.DefaultServerFactory;
 import io.dropwizard.server.ServerFactory;
 import io.dropwizard.server.SimpleServerFactory;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,8 +37,10 @@ import java.util.List;
 public class SwaggerConfiguration {
 
     private final Configuration configuration;
+    private final String staticAssetPrefix;
 
-    public SwaggerConfiguration(Configuration configuration) {
+    public SwaggerConfiguration(Configuration configuration, String staticAssetPrefix) {
+        this.staticAssetPrefix = staticAssetPrefix;
         this.configuration = configuration;
     }
 
@@ -83,12 +86,15 @@ public class SwaggerConfiguration {
 
         String urlPattern;
 
-        if (rootPath.equals("/") && applicationContextPath.equals("/")) {
+        if (rootPath.equals("/") && applicationContextPath.equals("/") &&
+            (StringUtils.isEmpty(staticAssetPrefix) || staticAssetPrefix.equals("/"))) {
             urlPattern =  "/";
         } else if (rootPath.equals("/") && !applicationContextPath.equals("/")) {
             urlPattern = applicationContextPath;
         } else if (!rootPath.equals("/") && applicationContextPath.equals("/")) {
             urlPattern = rootPath;
+        } else if (!StringUtils.isEmpty(staticAssetPrefix) && !staticAssetPrefix.equals("/")) {
+            urlPattern = staticAssetPrefix;
         } else {
             urlPattern = applicationContextPath + rootPath;
         }

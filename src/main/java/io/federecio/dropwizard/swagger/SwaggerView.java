@@ -17,6 +17,7 @@ package io.federecio.dropwizard.swagger;
 
 import com.google.common.base.Charsets;
 import io.dropwizard.views.View;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Serves the content of Swagger's index page which has been "templatized" to support replacing
@@ -29,8 +30,9 @@ public class SwaggerView extends View {
 
     private final String swaggerAssetsPath;
     private final String contextPath;
+    private final String tokenType;
 
-    protected SwaggerView(String urlPattern) {
+    protected SwaggerView(String urlPattern, String tokenType) {
         super("index.ftl", Charsets.UTF_8);
 
         if (urlPattern.equals("/")) {
@@ -44,6 +46,11 @@ public class SwaggerView extends View {
         } else {
             contextPath = urlPattern;
         }
+
+        this.tokenType = !StringUtils.isEmpty(tokenType) && (tokenType.equalsIgnoreCase("header") ||
+                                                             tokenType.equalsIgnoreCase("query"))
+                         ? tokenType.toLowerCase()
+                         : "header";
     }
 
     /**
@@ -61,4 +68,10 @@ public class SwaggerView extends View {
     public String getContextPath() {
         return contextPath;
     }
+
+    @SuppressWarnings("unused")
+    public String getTokenType() {
+        return tokenType;
+    }
+
 }
