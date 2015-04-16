@@ -1762,6 +1762,10 @@ SwaggerResource.prototype.getAbsoluteBasePath = function (relativeBasePath) {
   var parts = url.split('/');
   var rootUrl = parts[0] + '//' + parts[2];
 
+  if (parts[3] != 'api-docs') {
+    rootUrl += '/' + parts[3];
+  }
+
   if (relativeBasePath.indexOf('http') === 0)
     return relativeBasePath;
   if (relativeBasePath === '/')

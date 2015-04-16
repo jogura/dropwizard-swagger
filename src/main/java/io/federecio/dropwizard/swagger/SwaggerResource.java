@@ -24,13 +24,15 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.TEXT_HTML)
 public class SwaggerResource {
     private final String urlPattern;
+    private final String tokenType;
 
-    public SwaggerResource(String urlPattern) {
+    public SwaggerResource(String urlPattern, String tokenType) {
         this.urlPattern = urlPattern;
+        this.tokenType = tokenType;
     }
 
     @GET
     public SwaggerView get() {
-        return new SwaggerView(urlPattern);
+        return new SwaggerView(urlPattern, tokenType);
     }
 }
