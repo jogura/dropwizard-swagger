@@ -55,7 +55,7 @@
         log("key: " + key);
         if(key && key.trim() != "") {
             log("added key " + key);
-            window.authorizations.add("api_key", new ApiKeyAuthorization("Authorization", key, "${tokenType}"));
+            window.authorizations.add("api_key", new ApiKeyAuthorization("${authHeader}", key, "${tokenType}"));
         }
       }
 

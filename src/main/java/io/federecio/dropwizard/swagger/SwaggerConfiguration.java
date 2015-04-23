@@ -38,10 +38,15 @@ public class SwaggerConfiguration {
 
     private final Configuration configuration;
     private final String staticAssetPrefix;
+    private final String tokenType;
+    private final String authHeader;
 
-    public SwaggerConfiguration(Configuration configuration, String staticAssetPrefix) {
-        this.staticAssetPrefix = staticAssetPrefix;
+    SwaggerConfiguration(Configuration configuration, String staticAssetPrefix,
+                         String tokenType, String authHeader) {
         this.configuration = configuration;
+        this.staticAssetPrefix = staticAssetPrefix;
+        this.tokenType = tokenType;
+        this.authHeader = authHeader;
     }
 
     public void setUpSwaggerFor(String host, Integer port) {
@@ -157,6 +162,63 @@ public class SwaggerConfiguration {
             return new ArrayList<>(((DefaultServerFactory) serverFactory).getApplicationConnectors());
         } else {
             throw new IllegalStateException("Unknown ServerFactory implementation: " + serverFactory.getClass());
+        }
+    }
+
+    public String getStaticAssetPrefix() {
+        return staticAssetPrefix;
+    }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public String getAuthHeader() {
+        return authHeader;
+    }
+
+    public static SwaggerConfiguration.SwaggerConfigurationBuilder builder() {
+        return new SwaggerConfiguration.SwaggerConfigurationBuilder();
+    }
+
+    public static class SwaggerConfigurationBuilder {
+        private Configuration configuration;
+        private String staticAssetPrefix;
+        private String tokenType;
+        private String authHeader;
+
+        SwaggerConfigurationBuilder() {
+        }
+
+        public SwaggerConfiguration.SwaggerConfigurationBuilder configuration(Configuration configuration) {
+            this.configuration = configuration;
+            return this;
+        }
+
+        public SwaggerConfiguration.SwaggerConfigurationBuilder staticAssetPrefix(String staticAssetPrefix) {
+            this.staticAssetPrefix = staticAssetPrefix;
+            return this;
+        }
+
+        public SwaggerConfiguration.SwaggerConfigurationBuilder tokenType(String tokenType) {
+            this.tokenType = tokenType;
+            return this;
+        }
+
+        public SwaggerConfiguration.SwaggerConfigurationBuilder authHeader(String authHeader) {
+            this.authHeader = authHeader;
+            return this;
+        }
+
+        public SwaggerConfiguration build() {
+            return new SwaggerConfiguration(this.configuration, this.staticAssetPrefix,
+                                            this.tokenType, this.authHeader);
+        }
+
+        public String toString() {
+            return "SwaggerConfiguration.SwaggerConfigurationBuilder(configuration=" + this.configuration +
+                   ", staticAssetPrefix=" + this.staticAssetPrefix + ", tokenType=" + this.tokenType +
+                   ", authHeader=" + this.authHeader +")";
         }
     }
 }

@@ -33,6 +33,12 @@ public class SwaggerBundleConfiguration {
     @JsonProperty
     private String staticAssetPrefix = "/";
 
+    @JsonProperty
+    private String securityTokenType = "query";
+
+    @JsonProperty
+    private String authHeader;
+
     public SwaggerBundleConfiguration(String host, Integer port) {
         this.host = host;
         this.port = port;
@@ -71,6 +77,22 @@ public class SwaggerBundleConfiguration {
 
     public void setStaticAssetPrefix(String staticAssetPrefix) {
         this.staticAssetPrefix = staticAssetPrefix;
+    }
+
+    public String getSecurityTokenType() {
+        return securityTokenType;
+    }
+
+    public void setSecurityTokenType(String securityTokenType) {
+        this.securityTokenType = securityTokenType;
+    }
+
+    public String getAuthHeader() {
+        return authHeader;
+    }
+
+    public void setAuthHeader(String authHeader) {
+        this.authHeader = authHeader;
     }
 
     @Override

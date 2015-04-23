@@ -31,8 +31,9 @@ public class SwaggerView extends View {
     private final String swaggerAssetsPath;
     private final String contextPath;
     private final String tokenType;
+    private final String authHeader;
 
-    protected SwaggerView(String urlPattern, String tokenType) {
+    protected SwaggerView(String urlPattern, String tokenType, String authHeader) {
         super("index.ftl", Charsets.UTF_8);
 
         if (urlPattern.equals("/")) {
@@ -50,7 +51,13 @@ public class SwaggerView extends View {
         this.tokenType = !StringUtils.isEmpty(tokenType) && (tokenType.equalsIgnoreCase("header") ||
                                                              tokenType.equalsIgnoreCase("query"))
                          ? tokenType.toLowerCase()
-                         : "header";
+                         : "query";
+
+        if (StringUtils.isEmpty(authHeader)) {
+            this.authHeader = "api_key";
+        } else {
+            this.authHeader = authHeader;
+        }
     }
 
     /**
@@ -73,5 +80,11 @@ public class SwaggerView extends View {
     public String getTokenType() {
         return tokenType;
     }
+
+    @SuppressWarnings("unused")
+    public String getAuthHeader() {
+        return authHeader;
+    }
+
 
 }

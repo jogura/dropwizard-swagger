@@ -33,8 +33,17 @@ public class SwaggerBundle<T extends Configuration> extends SwaggerDropwizard<T>
             if (bundleConfiguration == null) {
                 onRun(configuration, environment);
             } else {
+                SwaggerConfiguration swaggerConfiguration =
+                    SwaggerConfiguration
+                        .builder()
+                        .configuration(configuration)
+                        .staticAssetPrefix(bundleConfiguration.getStaticAssetPrefix())
+                    .tokenType(bundleConfiguration.getSecurityTokenType())
+                    .authHeader(bundleConfiguration.getAuthHeader())
+                    .build();
+
                 String host = StringUtils.isEmpty(bundleConfiguration.getHost()) ? SwaggerHostResolver.getSwaggerHost() : bundleConfiguration.getHost();
-                onRun(configuration, environment, host, bundleConfiguration.getPort(), bundleConfiguration.getStaticAssetPrefix());
+                onRun(configuration, environment, host, bundleConfiguration.getPort(), swaggerConfiguration);
             }
         } catch (IOException e) {
             throw new IllegalStateException(e);

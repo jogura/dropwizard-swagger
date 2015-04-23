@@ -25,14 +25,16 @@ import javax.ws.rs.core.MediaType;
 public class SwaggerResource {
     private final String urlPattern;
     private final String tokenType;
+    private final String authHeader;
 
-    public SwaggerResource(String urlPattern, String tokenType) {
+    public SwaggerResource(String urlPattern, String tokenType, String authHeader) {
         this.urlPattern = urlPattern;
         this.tokenType = tokenType;
+        this.authHeader = authHeader;
     }
 
     @GET
     public SwaggerView get() {
-        return new SwaggerView(urlPattern, tokenType);
+        return new SwaggerView(urlPattern, tokenType, authHeader);
     }
 }
